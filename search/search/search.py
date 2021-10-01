@@ -74,87 +74,77 @@ def tinyMazeSearch(problem):
 
 def depthFirstSearch(problem):
     """
-    Search the deepest nodes in the search tree first.
-
-    Your search algorithm needs to return a list of actions that reaches the
-    goal. Make sure to implement a graph search algorithm.
-
-    To get started, you might want to try some of these simple commands to
-    understand the search problem that is being passed in:
-
     print("Start:", problem.getStartState())
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
-    "*** YOUR CODE HERE ***"
+    frontier = util.Stack()                                         # create frontier of data type stack
+    frontier.push((problem.getStartState(), [], 1))                 # add starting state to frontier
+    explored = []                                                   # initialize explored set
 
-    frontier = util.Stack() # create frontier of data type stack
-    frontier.push((problem.getStartState(), [], 1)) # add starting state to frontier
-    explored = [] # initialize explored set
-
-    while not frontier.isEmpty(): # loop until frontier empty
-        node = frontier.pop() # pop the top most node on the stack
-        currentState = node[0] # get the state of the first node
-        currentPath = node[1] # get the path of the first node
-        if problem.isGoalState(currentState): # return the path if this is the goal state
+    while not frontier.isEmpty():                                   # loop until frontier empty
+        node = frontier.pop()                                       # pop the top most node on the stack
+        currentState = node[0]                                      # get the state of the first node
+        currentPath = node[1]                                       # get the path of the first node
+        if problem.isGoalState(currentState):                       # return the path if this is the goal state
             return currentPath
-        if currentState not in explored: # if this node has not been explored then:
-            explored.append(currentState) # add node to explored set
-            successors = problem.getSuccessors(currentState) # get the successors of the current node
-            for nextNode in successors: # iterate over the successors
-                nextNodeState = nextNode[0] # get next node state
-                nextNodePath = nextNode[1] # get next node path
-                if nextNodeState not in explored: # if next node not in explored set:
-                    nextNodePath = currentPath + [nextNodePath] # add the next node path to the current path
+        if currentState not in explored:                            # if this node has not been explored then:
+            explored.append(currentState)                           # add node to explored set
+            successors = problem.getSuccessors(currentState)        # get the successors of the current node
+            for nextNode in successors:                             # iterate over the successors
+                nextNodeState = nextNode[0]                         # get next node state
+                nextNodePath = nextNode[1]                          # get next node path
+                if nextNodeState not in explored:                   # if next node not in explored set:
+                    nextNodePath = currentPath + [nextNodePath]     # add the next node path to the current path
                     frontier.push((nextNodeState, nextNodePath, 1)) # push the next node data to the frontier stack
 
 def breadthFirstSearch(problem):
-    frontier = util.Queue() # create frontier of data type stack
-    frontier.push((problem.getStartState(), [], 1)) # add starting state to frontier
-    explored = [] # initialize explored set
+    frontier = util.Queue()                                         # create frontier of data type stack
+    frontier.push((problem.getStartState(), [], 1))                 # add starting state to frontier
+    explored = []                                                   # initialize explored set
 
-    while not frontier.isEmpty(): # loop until frontier empty
-        node = frontier.pop() # pop first node on the Queue
-        currentState = node[0] # get the state of the first node
-        currentPath = node[1] # get the path of the first node
+    while not frontier.isEmpty():                                   # loop until frontier empty
+        node = frontier.pop()                                       # pop first node on the Queue
+        currentState = node[0]                                      # get the state of the first node
+        currentPath = node[1]                                       # get the path of the first node
 
-        if problem.isGoalState(currentState): # return the path if this is the goal state
+        if problem.isGoalState(currentState):                       # return the path if this is the goal state
             return currentPath
 
-        if currentState not in explored: # if this node has not been explored then:
-            explored.append(currentState) # add node to explored set
-            successors = problem.getSuccessors(currentState) # get the successors of the current node
+        if currentState not in explored:                            # if this node has not been explored then:
+            explored.append(currentState)                           # add node to explored set
+            successors = problem.getSuccessors(currentState)        # get the successors of the current node
 
-            for nextNode in successors: # iterate over the successors
-                nextNodeState = nextNode[0] # get next node state
-                nextNodePath = nextNode[1] # get next node path
-                if nextNodeState not in explored: # if next node not in explored set:
-                    nextNodePath = currentPath + [nextNodePath] # add the next node path to the current path
+            for nextNode in successors:                             # iterate over the successors
+                nextNodeState = nextNode[0]                         # get next node state
+                nextNodePath = nextNode[1]                          # get next node path
+                if nextNodeState not in explored:                   # if next node not in explored set:
+                    nextNodePath = currentPath + [nextNodePath]     # add the next node path to the current path
                     frontier.push((nextNodeState, nextNodePath, 1)) # push the next node data to the frontier stack
 
 def uniformCostSearch(problem):
-    frontier = util.PriorityQueue()  # create frontier of data type Priority Queue
-    frontier.push((problem.getStartState(), [], 0), nullHeuristic(problem.getStartState(), problem))  # add starting state to frontier
-    explored = []  # initialize explored set
+    frontier = util.PriorityQueue()                                         # create frontier of data type Priority Queue
+    frontier.push((problem.getStartState(), [], 0), nullHeuristic(problem.getStartState(), problem)) # add starting state to frontier
+    explored = []                                                           # initialize explored set
 
-    while not frontier.isEmpty():  # loop until frontier empty
-        node = frontier.pop()  # pop first node on the Queue
-        currentState = node[0]  # get the state of the first node
-        currentPath = node[1]  # get the path of the first node
+    while not frontier.isEmpty():                                           # loop until frontier empty
+        node = frontier.pop()                                               # pop first node on the Queue
+        currentState = node[0]                                              # get the state of the first node
+        currentPath = node[1]                                               # get the path of the first node
 
-        if problem.isGoalState(currentState):  # return the path if this is the goal state
+        if problem.isGoalState(currentState):                               # return the path if this is the goal state
             return currentPath
 
-        if currentState not in explored:  # if this node has not been explored then:
-            explored.append(currentState)  # add node to explored set
-            successors = problem.getSuccessors(currentState)  # get the successors of the current node
+        if currentState not in explored:                                    # if this node has not been explored then:
+            explored.append(currentState)                                   # add node to explored set
+            successors = problem.getSuccessors(currentState)                # get the successors of the current node
 
-            for nextNode in successors:  # iterate over the successors
-                nextNodeState = nextNode[0]  # get next node state
-                nextNodePath = nextNode[1]  # get next node path
-                if nextNodeState not in explored:  # if next node not in explored set:
-                    nextNodePath = currentPath + [nextNodePath]  # add the next node path to the current path
-                    nextNodeCost = problem.getCostOfActions(nextNodePath) # get cost of next node path
+            for nextNode in successors:                                     # iterate over the successors
+                nextNodeState = nextNode[0]                                 # get next node state
+                nextNodePath = nextNode[1]                                  # get next node path
+                if nextNodeState not in explored:                           # if next node not in explored set:
+                    nextNodePath = currentPath + [nextNodePath]             # add the next node path to the current path
+                    nextNodeCost = problem.getCostOfActions(nextNodePath)   # get cost of next node path
                     frontier.push((nextNodeState, nextNodePath, 0), nextNodeCost)  # push the next node data to the frontier stack
 
 def nullHeuristic(state, problem=None):
@@ -166,10 +156,10 @@ def nullHeuristic(state, problem=None):
 
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
-    frontier = util.PriorityQueue()
-    frontier.push((problem.getStartState(), [], 0), heuristic(problem.getStartState(), problem))
-    explored = []
 
+    frontier = util.PriorityQueue()
+    frontier.push((problem.getStartState(), []), heuristic(problem.getStartState(), problem))
+    explored = []
     while not frontier.isEmpty():
         node = frontier.pop()
         currentState = node[0]
@@ -185,8 +175,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                 if nextNodeState not in explored:
                     nextNodePath = currentPath + [nextNodePath]
                     nextNodeCost = problem.getCostOfActions(nextNodePath)
-                    frontier.push((nextNodeState, nextNodePath, 0), nextNodeCost + heuristic(nextNodePath, problem))
-
+                    frontier.push((nextNodeState, nextNodePath), nextNodeCost + heuristic(nextNodeState, problem))
 
 # Abbreviations
 bfs = breadthFirstSearch
